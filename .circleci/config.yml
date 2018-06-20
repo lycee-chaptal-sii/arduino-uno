@@ -1,0 +1,53 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: debian:stretch
+    environment:
+      - ARDUINO_DIR: "/usr/share/arduino"
+      - ARDMK_DIR: "/usr/share/arduino"
+      - AVR_TOOLS_DIR: "/usr"
+    steps:
+      - checkout
+      - run:
+          name: Recherche des dépendances
+          command: >
+              apt-get update && apt-get -y install 
+              arduino-mk 
+              arduino-core 
+              gcc-avr 
+              avr-libc 
+              avrdude
+              libboost-tools-dev
+
+      - run:
+          name: Génération du Makefile
+          command: >
+              echo -e "
+              CXXFLAGS_STD = -std=c++14\n
+              BOARD_TAG    = uno\n
+              ARDUINO_PORT = /dev/cu.usb*\n
+              ARDUINO_LIBS = Ethernet Ethernet/utility Servo SPI Wire\n
+              include /usr/share/arduino/Arduino.mk\n
+              " > Makefile
+      - run:
+          name: Compilation du code Arduino
+          command: make
+
+      - run:
+          name: Inspection du code Arduino
+          command: >
+            mkdir inspect_dir &&
+            cp
+            `find ./ -name '*.ino'`
+            `find ./ -name '*.cpp'`
+            `find ./ -name '*.hpp'`
+            inspect_dir/. &&
+            inspect inspect_dir
+            -copyright -crlf -end -link -path_name -tab -ascii -apple_macro
+            -assert_macro -deprecated_macro -minmax -unnamed
+            > inspect_report.html
+
+      - store_artifacts:
+          path: inspect_report.html
+          destination: artefact
