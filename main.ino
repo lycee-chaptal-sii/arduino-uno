@@ -2,13 +2,22 @@
 //
 
 #include "Arduino.h"
+#include "include/Ultrasonic.h"
 
-// the setup function runs once when you press reset or power the board
+Ultrasonic ultrasonic(2);
+
 void setup()
 {
 }
 
-// the loop function runs over and over again forever
 void loop()
 {
+    static long RangeInInches;
+    static long RangeInCentimeters;
+
+    RangeInInches = ultrasonic.MeasureInInches();
+    delay(250);
+
+    RangeInCentimeters = ultrasonic.MeasureInCentimeters(); // two measurements should keep an interval
+    delay(250);
 }
