@@ -3,6 +3,8 @@
 
 #include "Arduino.h"
 #include "include/timer.h"
+#include "include/Grove_I2C_Motor_Driver.h"
+#include "include/Ultrasonic.h"
 
 /// The class fsm_state is a type whose value is restricted to a
 /// subset of values
@@ -27,17 +29,17 @@ void automate()
         // Manage the state transitions from the state value
         switch (my_state)
         {
-        case fsm_state::s0:
+            case fsm_state::s0:
 
-            my_state = fsm_state::s1;
+                my_state = fsm_state::s1;
 
-            break;
+                break;
 
-        case fsm_state::s1:
+            case fsm_state::s1:
 
-            my_state = fsm_state::s0;
+                my_state = fsm_state::s0;
 
-            break;
+                break;
         }
     }
     else
@@ -60,16 +62,16 @@ void loop()
     // Manage the outputs from the state value
     switch (my_state)
     {
-    case fsm_state::s0:
+        case fsm_state::s0:
 
-        digitalWrite(13, LOW);
+            digitalWrite(13, LOW);
 
-        break;
+            break;
 
-    case fsm_state::s1:
+        case fsm_state::s1:
 
-        digitalWrite(13, HIGH);
+            digitalWrite(13, HIGH);
 
-        break;
+            break;
     }
 }
