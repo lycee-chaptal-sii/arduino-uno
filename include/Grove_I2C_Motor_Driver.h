@@ -42,8 +42,8 @@
 #define MotorSetB                 0xa5
 #define Nothing                   0x01
 /**************Motor ID**********************/
-#define MOTOR1 			          1
-#define MOTOR2 			          2
+#define MOTOR1                    1
+#define MOTOR2                    2
 /**************Motor Direction***************/
 #define BothClockWise             0x0a
 #define BothAntiClockWise         0x05
