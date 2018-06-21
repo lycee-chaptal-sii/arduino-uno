@@ -19,6 +19,7 @@ jobs:
               avr-libc 
               avrdude
               libboost-tools-dev
+              ca-certificates
 
       - run:
           name: Génération du Makefile
@@ -30,6 +31,16 @@ jobs:
               ARDUINO_LIBS = Ethernet Ethernet/utility Servo SPI Wire\n
               include /usr/share/arduino/Arduino.mk\n
               " > Makefile
+
+      - run:
+          name: Rappatriement des fichiers source
+          command: > 
+              if [ -d "src" ]; then
+              sed -i.bak 's+../include+include+g' src/*.cpp &&
+              mv src/*.cpp .;
+              fi
+
+
       - run:
           name: Compilation du code Arduino
           command: make
@@ -42,9 +53,10 @@ jobs:
             `find ./ -name '*.ino'`
             `find ./ -name '*.cpp'`
             `find ./ -name '*.hpp'`
+            `find ./ -name '*.h'`
             inspect_dir/. &&
             inspect inspect_dir
-            -copyright -crlf -end -link -path_name -tab -ascii -apple_macro
+            -crlf -end -link -path_name -tab -ascii -apple_macro
             -assert_macro -deprecated_macro -minmax -unnamed
             > inspect_report.html
 
