@@ -56,7 +56,7 @@ jobs:
             `find ./ -name '*.h'`
             inspect_dir/. &&
             inspect inspect_dir
-            -copyright -crlf -end -link -path_name -tab -ascii -apple_macro
+            -crlf -end -link -path_name -tab -ascii -apple_macro
             -assert_macro -deprecated_macro -minmax -unnamed
             > inspect_report.html
 
