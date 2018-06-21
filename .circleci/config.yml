@@ -53,6 +53,7 @@ jobs:
             `find ./ -name '*.ino'`
             `find ./ -name '*.cpp'`
             `find ./ -name '*.hpp'`
+            `find ./ -name '*.h'`
             inspect_dir/. &&
             inspect inspect_dir
             -copyright -crlf -end -link -path_name -tab -ascii -apple_macro
